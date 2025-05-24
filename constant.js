@@ -7,7 +7,6 @@ const ERROR_MESSAGE = process.env.ERROR_MESSAGE;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const TELEGRAM_API_KEY = process.env.TELEGRAM_API_KEY;
 const WHATSAPP_ID = process.env.WHATSAPP_ID;
-const PORT = process.env.PORT;
 
 module.exports = {
     SERVICE_ACCOUNT_JSON_FILE_PATH,
@@ -17,5 +16,4 @@ module.exports = {
     GEMINI_API_KEY,
     TELEGRAM_API_KEY,
     WHATSAPP_ID,
-    PORT
 };
