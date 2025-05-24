@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const { TELEGRAM_API_KEY } = require('./constant');
+const { WHATSAPP_ID } = require('./constant');
 const { detectIntentText } = require('./dialoflowApi');
 const { sendMessage } = require('./telegramApi');
 
@@ -39,7 +39,7 @@ router.get('/setWebhook', async (req, res) => {
         const url = `${baseUrl}/telegram/webhook`;
         let options = {
             method: 'POST',
-            url: `https://graph.facebook.com/v21.0/${TELEGRAM_API_KEY}/subscribed_apps`,
+            url: `https://graph.facebook.com/v21.0/${WHATSAPP_ID}/subscribed_apps`,
             headers: { 'Content-Type': 'application/json' },
             data: {
                 url: url
