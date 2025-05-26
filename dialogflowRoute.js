@@ -1,66 +1,12 @@
-const express = require('express');
+// routes/dialogflowRoutes.js
+import { Router } from 'express';
+const router = Router();
+import { handleWebhookVerification, handleIncomingMessage } from '/dialogflowController';
 
-const router = express.Router();
+// Ruta para la verificación del Webhook de WhatsApp (GET)
+router.get('/webhook', handleWebhookVerification);
 
-const { generateResponse } = require('./geminiApi');
+// Ruta para recibir mensajes de WhatsApp (POST)
+router.post('/webhook', handleIncomingMessage);
 
-const formatResponseForDialogflow = (message, sessionInfo) => {
-    let responseData = {
-        fulfillmentResponse: {
-            messages: [
-                {
-                    text: {
-                        text: [message],
-                        redactedText: [message]
-                    },
-                    responseType: 'HANDLER_PROMPT',
-                    source: 'VIRTUAL_AGENT'
-                }
-            ],
-            mergeBehavior: 'MERGE_BEHAVIOR_UNSPECIFIED'
-        }
-    };
-    if (sessionInfo !== '') {
-        responseData['sessionInfo'] = sessionInfo;
-    }
-    return responseData;
-};
-
-router.post('/webhook', async (req, res) => {
-    const tag = req.body.fulfillmentInfo.tag;
-    const query = req.body.text;
-    let sessionInfo = req.body.sessionInfo;
-    let responseData = {};
-    if (tag === 'askGemini') {
-        let parameters = {};
-        if (req.body.sessionInfo.hasOwnProperty('parameters')) {
-            parameters = req.body.sessionInfo.parameters;
-        } else {
-            parameters = {
-                chatHistory: []
-            }
-        }
-        let geminiResponse = await generateResponse(query, parameters.chatHistory);
-        parameters.chatHistory.push(
-            {
-                role: 'user',
-                parts: [query]
-            }
-        );
-        parameters.chatHistory.push(
-            {
-                role: 'model',
-                parts: [geminiResponse.response]
-            }
-        );
-        sessionInfo['parameters'] = parameters;
-        responseData = formatResponseForDialogflow(geminiResponse.response, sessionInfo);
-    } else {
-        responseData = formatResponseForDialogflow(`No handler for the tag -> ${tag}.`, '');
-    }
-    res.send(responseData);
-});
-
-module.exports = {
-    router
-};
+export default router;v

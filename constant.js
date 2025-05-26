@@ -8,6 +8,8 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const WHATSAPP_API_KEY = process.env.WHATSAPP_API_KEY;
 const WHATSAPP_ID = process.env.WHATSAPP_ID;
 const PORT = process.env.PORT;
+const WEBHOOK_VERIFY_TOKEN = process.env.WEBHOOK_VERIFY_TOKEN;
+const APP_SECRET = process.env.APP_SECRET;
 
 module.exports = {
     SERVICE_ACCOUNT_JSON_FILE_PATH,
@@ -17,5 +19,7 @@ module.exports = {
     GEMINI_API_KEY,
     WHATSAPP_API_KEY,
     WHATSAPP_ID,
-    PORT
+    PORT,
+    WEBHOOK_VERIFY_TOKEN,
+    APP_SECRET
 };

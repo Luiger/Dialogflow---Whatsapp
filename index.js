@@ -1,28 +1,25 @@
+// index.js
 require('dotenv').config();
+import express, { json } from 'express';
+import bodyParser from 'body-parser'; // Ya lo tienes
+import dialogflowRoutes from './routes/dialogflowRoutes';
+import crypto from 'crypto'; // Para la verificación de la firma
 
-const express = require('express');
+const app = express();
 
-const webApp = express();
+// Middleware para parsear JSON. WhatsApp envía JSON.
+// IMPORTANTE: Para la verificación de la firma, necesitas el raw body.
+// bodyParser.json() puede interferir si no se configura correctamente.
+// Meta recomienda leer el raw body para la firma.
+app.use(json({
+    verify: (req, res, buf) => {
+        req.rawBody = buf.toString();
+    }
+}));
 
-webApp.use(express.urlencoded({ extended: true }));
-webApp.use(express.json());
-webApp.use((req, res, next) => {
-    console.log(`Path ${req.path} with Method ${req.method}`);
-    next();
-});
-
-const homeRoute = require('./homeRoute');
-const telegramRoute = require('./telegramRoute');
-const dialogflowRoute = require('./dialogflowRoute');
-
-webApp.use('/', homeRoute.router);
-webApp.use('/telegram', telegramRoute.router);
-webApp.use('/dialogflow', dialogflowRoute.router);
-
-exports.telegramWebhook = webApp;
+app.use('/api/dialogflow', dialogflowRoutes); // Tu ruta actual
 
 const PORT = process.env.PORT || 3000;
-
-webApp.listen(PORT, () => {
-    console.log(`Server is up and running at ${PORT}`);
-  })
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
