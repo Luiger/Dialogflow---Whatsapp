@@ -2,7 +2,7 @@
 require('dotenv').config();
 import express, { json } from 'express';
 import bodyParser from 'body-parser'; // Ya lo tienes
-import dialogflowRoutes from './routes/dialogflowRoutes';
+import dialogflowRoutes from '/dialogflowRoutes';
 import crypto from 'crypto'; // Para la verificación de la firma
 
 const app = express();
