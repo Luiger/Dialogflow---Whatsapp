@@ -1,4 +1,4 @@
-// routes/dialogflowRoutes.js
+
 import { Router } from 'express';
 const router = Router();
 import { handleWebhookVerification, handleIncomingMessage } from '/dialogflowController';
@@ -9,4 +9,4 @@ router.get('/webhook', handleWebhookVerification);
 // Ruta para recibir mensajes de WhatsApp (POST)
 router.post('/webhook', handleIncomingMessage);
 
-export default router;v
+export default router;
