@@ -1,6 +1,6 @@
 // index.js
 require('dotenv').config();
-import express, { json } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser'; // Ya lo tienes
 import router from './rutasd.js';
 import crypto from 'crypto'; // Para la verificación de la firma
