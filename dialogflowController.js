@@ -2,6 +2,7 @@
 const { SessionsClient } = require('@google-cloud/dialogflow-cx');
 const axios = require('axios'); // Para enviar mensajes a la API de WhatsApp
 const crypto = require('crypto'); // Para la verificación de la firma
+const fs = require('fs');
 
 const {
     SERVICE_ACCOUNT_JSON_FILE_PATH
@@ -19,7 +20,7 @@ const webhookVerifyToken = process.env.WEBHOOK_VERIFY_TOKEN; // Tu token de veri
 const appSecret = process.env.APP_SECRET; // El App Secret de tu app de Meta
 
 const client = new SessionsClient({
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS
+    keyFilename: projectId
 });
 
 // Función para verificar la firma de las solicitudes POST de WhatsApp
@@ -159,7 +160,7 @@ async function sendWhatsappMessage(to, text) {
     }
     console.log(`Sending message to ${to}: ${text}`);
     try {
-        await axios.post(`https://graph.facebook.com/v19.0/${whatsappPhoneNumberId}/messages`, { // Asegúrate de usar una versión de API reciente
+        await axios.post(`https://graph.facebook.com/v22.0/${whatsappPhoneNumberId}/messages`, { // Asegúrate de usar una versión de API reciente
             messaging_product: 'whatsapp',
             to: to,
             type: 'text',

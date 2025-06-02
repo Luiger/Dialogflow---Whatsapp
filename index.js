@@ -2,7 +2,7 @@
 require('dotenv').config();
 import express, { json } from 'express';
 import bodyParser from 'body-parser'; // Ya lo tienes
-import dialogflowRoutes from '/dialogflowRoutes';
+import router from './rutasd.js';
 import crypto from 'crypto'; // Para la verificación de la firma
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(json({
     }
 }));
 
-app.use('/api/dialogflow', dialogflowRoutes); // Tu ruta actual
+app.use('/api/dialogflow', router); // Tu ruta actual
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
